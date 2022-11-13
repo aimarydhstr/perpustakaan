@@ -75,4 +75,32 @@ class PengembalianController extends Controller
             return false;
         }
     }
+
+    public function show($id)
+    {
+        try {
+            $title = "Halaman Detail Pengembalian Buku";
+            $auth = Auth::user()->with('role')->first();
+            $returning = Pengembalian::with('peminjaman', 'peminjaman.anggota', 'peminjaman.buku', 'peminjaman.buku.kategori')->where('id_pengembalian', $id)->first();
+
+            $day = Peminjaman::selectRaw('datediff(now(), tgl_kembali) as hari')->where('id_peminjaman', $returning->id_peminjaman)->first();
+                
+            if($day->hari >= 1) {
+                $statusKembali = 'Terlambat';
+                $penalty = $day->hari * 500;
+            }
+            else {
+                $statusKembali = 'Tepat Waktu';
+                $penalty = 0;
+            }
+
+            return view('pengembalian.get', compact('title', 'auth', 'returning', 'statusKembali', 'penalty'));
+        }
+
+        catch(Throwable $e) {
+            report($e);
+            
+            return false;
+        }
+    }
 }

@@ -106,10 +106,27 @@ class PeminjamanController extends Controller
 
             if(!$borrow) return redirect()->back()->with('failed', 'Terdapat kesalahan!');
 
-            return redirect()->route('peminjaman')->with('success', 'Peminjaman buku berhasil!'); 
+            return redirect()->route('peminjaman.get', $borrow->id_peminjaman)->with('success', 'Peminjaman buku berhasil!'); 
         }
 
         catch (Throwable $e) {
+            report($e);
+            
+            return false;
+        }
+    }
+
+    public function show($id)
+    {
+        try {
+            $title = "Halaman Detail Peminjaman Buku";
+            $auth = Auth::user()->with('role')->first();
+            $borrow = Peminjaman::with('anggota', 'buku', 'buku.kategori')->where('id_peminjaman', $id)->first();
+
+            return view('peminjaman.get', compact('title', 'auth', 'borrow'));
+        }
+
+        catch(Throwable $e) {
             report($e);
             
             return false;

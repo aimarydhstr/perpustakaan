@@ -82,6 +82,7 @@ Route::middleware('auth')->group(function(){
     Route::prefix('/pengembalian')->group(function(){
         Route::get('/', [PengembalianController::class, 'index'])->name('pengembalian');
         Route::get('/data', [PengembalianController::class, 'data'])->name('pengembalian.data');
+        Route::get('/get/{id}', [PengembalianController::class, 'show'])->name('pengembalian.get');
         Route::post('/store', [PengembalianController::class, 'store'])->name('pengembalian.store');
     });
 
