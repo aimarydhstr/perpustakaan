@@ -66,7 +66,7 @@ class PengembalianController extends Controller
 
             if(!$returning) return redirect()->back()->with('failed', 'Terdapat kesalahan!');
 
-            return redirect()->route('pengembalian')->with('success', 'Pengembalian buku berhasil!');    
+            return redirect()->route('pengembalian.get', $returning->id_pengembalian)->with('success', 'Pengembalian buku berhasil!');    
         }
 
         catch (Throwable $e) {
