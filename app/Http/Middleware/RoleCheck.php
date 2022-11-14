@@ -9,8 +9,8 @@ class RoleCheck
 {
     public function handle(Request $request, Closure $next, ...$roles)
     {
-        if(in_array($request->user()->role_id, $role)) return $next($request);
+        if(in_array($request->user()->role_id, $auth->role_id)) return $next($request);
 
-        return redirect()->back()->withErrors(['name' => 'Anda dilarang mengakses!']);
+        return redirect()->route('peminjaman');
     }
 }

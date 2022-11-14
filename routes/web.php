@@ -10,6 +10,7 @@ use App\Http\Controllers\PenulisController;
 use App\Http\Controllers\PenerbitController;
 use App\Http\Controllers\PeminjamanController;
 use App\Http\Controllers\PengembalianController;
+use App\Http\Controllers\LaporanController;
 
 Route::get('/', [LoginController::class, 'index'])->name('index');
 Route::post('/auth/login', [LoginController::class, 'login'])->name('login');
@@ -86,7 +87,20 @@ Route::middleware('auth')->group(function(){
         Route::post('/store', [PengembalianController::class, 'store'])->name('pengembalian.store');
     });
 
+    Route::prefix('/laporan')->group(function(){
+        Route::get('/pengembalian', [LaporanController::class, 'indexPengembalian'])->name('laporan.pengembalian');
+        Route::get('/pengembalian/data', [LaporanController::class, 'dataPengembalian'])->name('laporan.pengembalian.data');
+        Route::get('/peminjaman', [LaporanController::class, 'indexPeminjaman'])->name('laporan.peminjaman');
+        Route::get('/peminjaman/data', [LaporanController::class, 'dataPeminjaman'])->name('laporan.peminjaman.data');
+        Route::get('/anggota', [LaporanController::class, 'indexAnggota'])->name('laporan.anggota');
+        Route::get('/anggota/data', [LaporanController::class, 'dataAnggota'])->name('laporan.anggota.data');
+        Route::get('/buku', [LaporanController::class, 'indexBuku'])->name('laporan.buku');
+        Route::get('/buku/data', [LaporanController::class, 'dataBuku'])->name('laporan.buku.data');
+    });
+
     Route::prefix('/user')->middleware('level:1')->group(function(){
         // Route::get('/index', [DashboardController::class, 'index'])->name('kembali');
     });
+
+    Route::post('/auth/logout', [LoginController::class, 'logout'])->name('logout');
 });

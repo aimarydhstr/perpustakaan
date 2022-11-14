@@ -12,7 +12,7 @@ class KategoriController extends Controller
     {
         try {
             $title = "Halaman Kelola Kategori";
-            $auth = Auth::user()->with('role')->first();
+            $auth = Auth::user();
             $categories = Kategori::withCount('buku')->orderBy('nama', 'ASC')->paginate(5);
 
             return view('kategori.index', compact('title', 'auth', 'categories'))->with('i');

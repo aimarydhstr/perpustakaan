@@ -17,7 +17,9 @@ class DashboardController extends Controller
     {
         try {
             $title = "Halaman Dashboard";
-            $auth = Auth::user()->with('role')->first();
+            $auth = Auth::user();
+
+            if($auth->role->nama == 'Petugas') return redirect()->route('peminjaman');
             
             $anggota = Anggota::where('isActive', 1)->orderBy('id_anggota', 'DESC')->limit(6)->get();
             $peminjaman = Peminjaman::with('anggota', 'buku', 'user')->whereDay('tgl_pinjam', now()->format('d'))->get();

@@ -1,11 +1,12 @@
 <aside class="w-72 fixed top-0 left-0 bottom-0 shadow-2xl transition-all duration-300" id="sidebar">
    <div class="h-screen relative pt-6 bg-white pb-32 box-border overflow-hidden dark:bg-slate-700">
       <header class="flex justify-center mb-6 px-3">
-         <h1 class="text-xl font-semibold whitespace-nowrap dark:text-white"><a href="#">Perpustakaan</a></h1>
+         <h1 class="text-xl font-semibold whitespace-nowrap dark:text-white"><a href="{{ route('dashboard') }}">Perpustakaan</a></h1>
       </header>
       
       <nav class="overflow-hidden hover:overflow-y-scroll h-full pb-3">
          <ul class="space-y-3">
+            @if($auth->role->nama == 'Admin')
             <li>
                <a href="{{ route('dashboard') }}" class="{{ Request::routeIs('dashboard.*') || Request::routeIs('dashboard') ? 'text-white bg-violet-500 rounded-lg dark:text-white hover:bg-violet-700 active:bg-violet-800' : 'text-slate-900 rounded-lg dark:text-slate-200 hover:bg-gray-200 active:bg-gray-300 dark:hover:bg-slate-600 dark:active:bg-slate-500' }} flex items-center p-3 mx-2">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
@@ -14,6 +15,9 @@
                   <span class="ml-3">Dashboard</span>
                </a>
             </li>
+            @endif
+
+            @if($auth->role->nama == 'Petugas')
             <li>
                <a href="{{ route('peminjaman') }}" class="{{ Request::routeIs('peminjaman.*') || Request::routeIs('peminjaman') ? 'text-white bg-violet-500 rounded-lg dark:text-white hover:bg-violet-700 active:bg-violet-800' : 'text-slate-900 rounded-lg dark:text-slate-200 hover:bg-gray-200 active:bg-gray-300 dark:hover:bg-slate-600 dark:active:bg-slate-500' }} flex items-center p-3 mx-2">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
@@ -78,13 +82,35 @@
                   <span class="flex-1 ml-3 whitespace-nowrap">Penerbit</span>
                </a>
             </li>
+            @endif
 
+
+            @if($auth->role->nama == 'Admin')
             <li>
                <p class="pt-5 pb-1 px-5 mt-3 border-t dark:border-slate-600 uppercase text-slate-400 text-xs font-semibold">Manajemen Laporan</p>
             </li>
 
             <li>
-               <a href="#" class="{{ Request::routeIs('') ? 'text-white bg-violet-500 rounded-lg dark:text-white hover:bg-violet-700 active:bg-violet-800' : 'text-slate-900 rounded-lg dark:text-slate-200 hover:bg-gray-200 active:bg-gray-300 dark:hover:bg-slate-600 dark:active:bg-slate-500' }} flex items-center p-3 mx-2">
+               <a href="{{ route('laporan.anggota') }}" class="{{ Request::routeIs('laporan.anggota') ? 'text-white bg-violet-500 rounded-lg dark:text-white hover:bg-violet-700 active:bg-violet-800' : 'text-slate-900 rounded-lg dark:text-slate-200 hover:bg-gray-200 active:bg-gray-300 dark:hover:bg-slate-600 dark:active:bg-slate-500' }} flex items-center p-3 mx-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                    <path fill-rule="evenodd" d="M7.502 6h7.128A3.375 3.375 0 0118 9.375v9.375a3 3 0 003-3V6.108c0-1.505-1.125-2.811-2.664-2.94a48.972 48.972 0 00-.673-.05A3 3 0 0015 1.5h-1.5a3 3 0 00-2.663 1.618c-.225.015-.45.032-.673.05C8.662 3.295 7.554 4.542 7.502 6zM13.5 3A1.5 1.5 0 0012 4.5h4.5A1.5 1.5 0 0015 3h-1.5z" clip-rule="evenodd"></path>
+                    <path fill-rule="evenodd" d="M3 9.375C3 8.339 3.84 7.5 4.875 7.5h9.75c1.036 0 1.875.84 1.875 1.875v11.25c0 1.035-.84 1.875-1.875 1.875h-9.75A1.875 1.875 0 013 20.625V9.375zM6 12a.75.75 0 01.75-.75h.008a.75.75 0 01.75.75v.008a.75.75 0 01-.75.75H6.75a.75.75 0 01-.75-.75V12zm2.25 0a.75.75 0 01.75-.75h3.75a.75.75 0 010 1.5H9a.75.75 0 01-.75-.75zM6 15a.75.75 0 01.75-.75h.008a.75.75 0 01.75.75v.008a.75.75 0 01-.75.75H6.75a.75.75 0 01-.75-.75V15zm2.25 0a.75.75 0 01.75-.75h3.75a.75.75 0 010 1.5H9a.75.75 0 01-.75-.75zM6 18a.75.75 0 01.75-.75h.008a.75.75 0 01.75.75v.008a.75.75 0 01-.75.75H6.75a.75.75 0 01-.75-.75V18zm2.25 0a.75.75 0 01.75-.75h3.75a.75.75 0 010 1.5H9a.75.75 0 01-.75-.75z" clip-rule="evenodd"></path>
+                  </svg>
+                  <span class="flex-1 ml-3 whitespace-nowrap">Anggota</span>
+               </a>
+            </li>
+            <li>
+               <a href="{{ route('laporan.buku') }}" class="{{ Request::routeIs('laporan.buku') ? 'text-white bg-violet-500 rounded-lg dark:text-white hover:bg-violet-700 active:bg-violet-800' : 'text-slate-900 rounded-lg dark:text-slate-200 hover:bg-gray-200 active:bg-gray-300 dark:hover:bg-slate-600 dark:active:bg-slate-500' }} flex items-center p-3 mx-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                    <path fill-rule="evenodd" d="M7.502 6h7.128A3.375 3.375 0 0118 9.375v9.375a3 3 0 003-3V6.108c0-1.505-1.125-2.811-2.664-2.94a48.972 48.972 0 00-.673-.05A3 3 0 0015 1.5h-1.5a3 3 0 00-2.663 1.618c-.225.015-.45.032-.673.05C8.662 3.295 7.554 4.542 7.502 6zM13.5 3A1.5 1.5 0 0012 4.5h4.5A1.5 1.5 0 0015 3h-1.5z" clip-rule="evenodd"></path>
+                    <path fill-rule="evenodd" d="M3 9.375C3 8.339 3.84 7.5 4.875 7.5h9.75c1.036 0 1.875.84 1.875 1.875v11.25c0 1.035-.84 1.875-1.875 1.875h-9.75A1.875 1.875 0 013 20.625V9.375zm9.586 4.594a.75.75 0 00-1.172-.938l-2.476 3.096-.908-.907a.75.75 0 00-1.06 1.06l1.5 1.5a.75.75 0 001.116-.062l3-3.75z" clip-rule="evenodd"></path>
+                  </svg>
+                  <span class="flex-1 ml-3 whitespace-nowrap">Buku</span>
+               </a>
+            </li>
+
+            <li>
+               <a href="{{ route('laporan.peminjaman') }}" class="{{ Request::routeIs('laporan.peminjaman') ? 'text-white bg-violet-500 rounded-lg dark:text-white hover:bg-violet-700 active:bg-violet-800' : 'text-slate-900 rounded-lg dark:text-slate-200 hover:bg-gray-200 active:bg-gray-300 dark:hover:bg-slate-600 dark:active:bg-slate-500' }} flex items-center p-3 mx-2">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
                     <path fill-rule="evenodd" d="M7.502 6h7.128A3.375 3.375 0 0118 9.375v9.375a3 3 0 003-3V6.108c0-1.505-1.125-2.811-2.664-2.94a48.972 48.972 0 00-.673-.05A3 3 0 0015 1.5h-1.5a3 3 0 00-2.663 1.618c-.225.015-.45.032-.673.05C8.662 3.295 7.554 4.542 7.502 6zM13.5 3A1.5 1.5 0 0012 4.5h4.5A1.5 1.5 0 0015 3h-1.5z" clip-rule="evenodd"></path>
                     <path fill-rule="evenodd" d="M3 9.375C3 8.339 3.84 7.5 4.875 7.5h9.75c1.036 0 1.875.84 1.875 1.875v11.25c0 1.035-.84 1.875-1.875 1.875h-9.75A1.875 1.875 0 013 20.625V9.375zM6 12a.75.75 0 01.75-.75h.008a.75.75 0 01.75.75v.008a.75.75 0 01-.75.75H6.75a.75.75 0 01-.75-.75V12zm2.25 0a.75.75 0 01.75-.75h3.75a.75.75 0 010 1.5H9a.75.75 0 01-.75-.75zM6 15a.75.75 0 01.75-.75h.008a.75.75 0 01.75.75v.008a.75.75 0 01-.75.75H6.75a.75.75 0 01-.75-.75V15zm2.25 0a.75.75 0 01.75-.75h3.75a.75.75 0 010 1.5H9a.75.75 0 01-.75-.75zM6 18a.75.75 0 01.75-.75h.008a.75.75 0 01.75.75v.008a.75.75 0 01-.75.75H6.75a.75.75 0 01-.75-.75V18zm2.25 0a.75.75 0 01.75-.75h3.75a.75.75 0 010 1.5H9a.75.75 0 01-.75-.75z" clip-rule="evenodd"></path>
@@ -93,7 +119,7 @@
                </a>
             </li>
             <li>
-               <a href="#" class="{{ Request::routeIs('dashboard') ? 'text-white bg-violet-500 rounded-lg dark:text-white hover:bg-violet-700 active:bg-violet-800' : 'text-slate-900 rounded-lg dark:text-slate-200 hover:bg-gray-200 active:bg-gray-300 dark:hover:bg-slate-600 dark:active:bg-slate-500' }} flex items-center p-3 mx-2">
+               <a href="{{ route('laporan.pengembalian') }}" class="{{ Request::routeIs('laporan.pengembalian') ? 'text-white bg-violet-500 rounded-lg dark:text-white hover:bg-violet-700 active:bg-violet-800' : 'text-slate-900 rounded-lg dark:text-slate-200 hover:bg-gray-200 active:bg-gray-300 dark:hover:bg-slate-600 dark:active:bg-slate-500' }} flex items-center p-3 mx-2">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
                     <path fill-rule="evenodd" d="M7.502 6h7.128A3.375 3.375 0 0118 9.375v9.375a3 3 0 003-3V6.108c0-1.505-1.125-2.811-2.664-2.94a48.972 48.972 0 00-.673-.05A3 3 0 0015 1.5h-1.5a3 3 0 00-2.663 1.618c-.225.015-.45.032-.673.05C8.662 3.295 7.554 4.542 7.502 6zM13.5 3A1.5 1.5 0 0012 4.5h4.5A1.5 1.5 0 0015 3h-1.5z" clip-rule="evenodd"></path>
                     <path fill-rule="evenodd" d="M3 9.375C3 8.339 3.84 7.5 4.875 7.5h9.75c1.036 0 1.875.84 1.875 1.875v11.25c0 1.035-.84 1.875-1.875 1.875h-9.75A1.875 1.875 0 013 20.625V9.375zm9.586 4.594a.75.75 0 00-1.172-.938l-2.476 3.096-.908-.907a.75.75 0 00-1.06 1.06l1.5 1.5a.75.75 0 001.116-.062l3-3.75z" clip-rule="evenodd"></path>
@@ -101,8 +127,23 @@
                   <span class="flex-1 ml-3 whitespace-nowrap">Pengembalian</span>
                </a>
             </li>
+            @endif
+            <li>
+               <p class="pb-1 px-5 mt-3 border-t dark:border-slate-600 uppercase text-slate-400 text-xs font-semibold"></p>
+            </li>
+            <li>
+               <form id="logout-form" action="{{ route('logout') }}" method="POST">
+                      @csrf
+                  <button type="submit" class="text-slate-900 rounded-lg dark:text-slate-200 hover:bg-gray-200 active:bg-gray-300 dark:hover:bg-slate-600 dark:active:bg-slate-500 flex items-center p-3 mx-2 w-64">
+                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                       <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
+                     </svg>
+                     <span class="flex-1 ml-3 grow whitespace-nowrap text-left">Logout</span>
+                  </button>
+               </form>
+            </li>
          </ul>
-      </nav>
+      </nav>                        
 
       <div class="flex items-center relative py-4 px-5 bg-slate-600 absolute bottom-0 w-full">
          <img src="{{ asset('/img/user/'.$auth->foto) }}" alt="{{ $auth->nama }}" class="w-10 h-10 mt-1 object-cover rounded-full mr-3">

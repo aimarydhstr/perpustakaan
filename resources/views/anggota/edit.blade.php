@@ -64,7 +64,11 @@
                </div>
                <div class="pt-5">
                   <label for="jenis_kelamin">Jenis Kelamin</label>
-                  <input name="jenis_kelamin" id="jenis_kelamin" type="text" class="p-3 focus:outline-none focus:ring focus:ring-violet-500 rounded-lg w-full border my-3 dark:bg-slate-700 dark:border-slate-600" placeholder="Ketik jenis kelamin anggota..." required autocomplete="off" value="{{ $member->jenis_kelamin }}">
+                  <select class="p-3 focus:outline-none focus:ring focus:ring-violet-500 rounded-lg w-full border my-3 dark:bg-slate-700 dark:border-slate-600 disabled:text-slate-500" name="jenis_kelamin" id="jenis_kelamin" required autocomplete="off">
+                     <option disabled>Pilih jenis kelamin</option>
+                     <option selected value="L">Laki-Laki</option>
+                     <option value="P">Perempuan</option>
+                  </select>
                </div>
                <div class="pt-5">
                   <label for="alamat">Alamat anggota</label>

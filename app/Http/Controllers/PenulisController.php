@@ -12,7 +12,7 @@ class PenulisController extends Controller
     {
         try {
             $title = "Halaman Kelola Penulis";
-            $auth = Auth::user()->with('role')->first();
+            $auth = Auth::user();
             $authors = Penulis::withCount('buku')->orderBy('nama', 'ASC')->paginate(5);
 
             return view('penulis.index', compact('title', 'auth', 'authors'))->with('i');

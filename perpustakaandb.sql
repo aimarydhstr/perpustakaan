@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 13 Nov 2022 pada 17.12
+-- Waktu pembuatan: 14 Nov 2022 pada 18.15
 -- Versi server: 10.4.24-MariaDB
 -- Versi PHP: 8.1.6
 
@@ -44,7 +44,13 @@ CREATE TABLE `anggota` (
 INSERT INTO `anggota` (`id_anggota`, `nama`, `jenis_kelamin`, `email`, `alamat`, `foto`, `isActive`) VALUES
 (1, 'Kirigaya Kazuto', 'L', 'kirito@gmail.com', 'Aincrad', '202211121712kirito.jpg', 1),
 (2, 'Yuuki Asuna', 'P', 'asuna@gmail.com', 'Aincrad', '202211121711asuna.jpg', 1),
-(3, 'Mutou Yugi', 'L', 'atem@gmail.com', 'Jl. Yami', 'default.png', 1);
+(3, 'Mutou Yugi', 'L', 'atem@gmail.com', 'Jl. Yami', 'default.png', 1),
+(4, 'Roronoa Zoro', 'L', 'RoronoaZoro12@gmail.com', 'Purwokerto', 'default.png', 1),
+(5, 'Light Yagami', 'L', 'LightYagami@gmail.com', 'Purbalingga', 'default.png', 1),
+(6, 'Erza Scarlet', 'P', 'Erzascarlet@gmail.com', 'Purbalingga', 'default.png', 1),
+(7, 'Yoruichi Shihoin', 'P', 'Yoruichishihoin@gmail.com', 'Banyumas', 'default.png', 1),
+(8, 'Zenin Maki', 'P', 'Zeninmaki@gmail.com', 'Purwokerto', 'default.png', 1),
+(9, 'Saber', 'P', 'saber@gmail.com', 'Banyumas', 'default.png', 1);
 
 -- --------------------------------------------------------
 
@@ -92,10 +98,9 @@ CREATE TABLE `kategori` (
 
 INSERT INTO `kategori` (`id_kategori`, `nama`) VALUES
 (1, 'Novel'),
-(2, 'Dongeng'),
 (3, 'Komik'),
-(4, 'Ensiklopedia'),
-(6, 'Pemrograman');
+(6, 'Pemrograman'),
+(8, 'Ensiklopedia');
 
 -- --------------------------------------------------------
 
@@ -117,12 +122,8 @@ CREATE TABLE `peminjaman` (
 --
 
 INSERT INTO `peminjaman` (`id_peminjaman`, `id_anggota`, `id_buku`, `id_user`, `tgl_pinjam`, `tgl_kembali`) VALUES
-(1, 1, 4, 1, '2022-11-13', '2022-11-14'),
-(2, 2, 1, 1, '2022-11-13', '2022-11-12'),
-(3, 1, 7, 1, '2022-11-13', '2022-11-13'),
-(4, 1, 3, 1, '2022-11-13', '2022-11-18'),
-(5, 3, 4, 1, '2022-11-13', '2022-11-13'),
-(6, 1, 4, 1, '2022-11-13', '2022-11-10');
+(7, 1, 1, 2, '2022-11-14', '2022-11-15'),
+(8, 2, 3, 2, '2022-11-15', '2022-11-16');
 
 -- --------------------------------------------------------
 
@@ -142,7 +143,9 @@ CREATE TABLE `penerbit` (
 INSERT INTO `penerbit` (`id_penerbit`, `nama`) VALUES
 (1, 'Garena'),
 (2, 'Capcom'),
-(3, 'Erlangga');
+(3, 'Erlangga'),
+(5, 'Bukunesia'),
+(6, 'Gramedia Pustaka Utama');
 
 -- --------------------------------------------------------
 
@@ -163,10 +166,7 @@ CREATE TABLE `pengembalian` (
 --
 
 INSERT INTO `pengembalian` (`id_pengembalian`, `id_peminjaman`, `id_user`, `tgl_kembali`, `denda`) VALUES
-(1, 1, 1, '2022-11-13', 0),
-(2, 3, 1, '2022-11-13', 0),
-(3, 4, 1, '2022-11-13', 0),
-(4, 6, 1, '2022-11-13', 1500);
+(6, 7, 2, '2022-11-14', 0);
 
 -- --------------------------------------------------------
 
@@ -186,7 +186,9 @@ CREATE TABLE `penulis` (
 INSERT INTO `penulis` (`id_penulis`, `nama`) VALUES
 (1, 'Tite Kubo'),
 (2, 'Eichiro Oda'),
-(3, 'Masashi Kishimoto');
+(3, 'Masashi Kishimoto'),
+(4, 'Tere Liye'),
+(7, 'Winna Efendi');
 
 -- --------------------------------------------------------
 
@@ -228,7 +230,8 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id_user`, `nama`, `username`, `password`, `foto`, `id_role`, `isActive`) VALUES
-(1, 'Aimar Yudhistira', 'aimarydhstr', '$2y$10$oIDkV3KB2F9HkC0c1/IgjuH7aTtiY2SIfRwqODw5yg61sUnrcoX9q', 'ki.jpg', 1, 1);
+(1, 'Aimar Yudhistira', 'aimarydhstr', '$2y$10$oIDkV3KB2F9HkC0c1/IgjuH7aTtiY2SIfRwqODw5yg61sUnrcoX9q', 'ki.jpg', 1, 1),
+(2, 'Lintang Desy', 'lintangd', '$2y$10$oIDkV3KB2F9HkC0c1/IgjuH7aTtiY2SIfRwqODw5yg61sUnrcoX9q', 'lintang.png', 2, 1);
 
 --
 -- Indexes for dumped tables
@@ -308,43 +311,43 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT untuk tabel `anggota`
 --
 ALTER TABLE `anggota`
-  MODIFY `id_anggota` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_anggota` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT untuk tabel `buku`
 --
 ALTER TABLE `buku`
-  MODIFY `id_buku` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_buku` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT untuk tabel `kategori`
 --
 ALTER TABLE `kategori`
-  MODIFY `id_kategori` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_kategori` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT untuk tabel `peminjaman`
 --
 ALTER TABLE `peminjaman`
-  MODIFY `id_peminjaman` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_peminjaman` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT untuk tabel `penerbit`
 --
 ALTER TABLE `penerbit`
-  MODIFY `id_penerbit` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_penerbit` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT untuk tabel `pengembalian`
 --
 ALTER TABLE `pengembalian`
-  MODIFY `id_pengembalian` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_pengembalian` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT untuk tabel `penulis`
 --
 ALTER TABLE `penulis`
-  MODIFY `id_penulis` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_penulis` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT untuk tabel `role`
@@ -356,7 +359,7 @@ ALTER TABLE `role`
 -- AUTO_INCREMENT untuk tabel `user`
 --
 ALTER TABLE `user`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)

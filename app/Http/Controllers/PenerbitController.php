@@ -12,7 +12,7 @@ class PenerbitController extends Controller
     {
         try {
             $title = "Halaman Kelola Penerbit";
-            $auth = Auth::user()->with('role')->first();
+            $auth = Auth::user();
             $publishers = Penerbit::withCount('buku')->orderBy('nama', 'ASC')->paginate(5);
 
             return view('penerbit.index', compact('title', 'auth', 'publishers'))->with('i');

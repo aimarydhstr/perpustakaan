@@ -14,7 +14,7 @@ class PeminjamanController extends Controller
     {
         try {
             $title = "Halaman Peminjaman Buku";
-            $auth = Auth::user()->with('role')->first();
+            $auth = Auth::user();
             $books = Buku::with('kategori', 'penulis', 'penerbit')->orderBy('judul', 'ASC')->paginate(10);
 
             return view('peminjaman.index', compact('title', 'auth', 'books'))->with('i');
@@ -50,7 +50,7 @@ class PeminjamanController extends Controller
     {
         try {
             $title = "Halaman Peminjaman Buku";
-            $auth = Auth::user()->with('role')->first();
+            $auth = Auth::user();
             $members = Anggota::orderBy('nama', 'ASC')->paginate(10);
             $book = Buku::with('kategori', 'penulis', 'penerbit')->where('id_buku', $id)->orderBy('judul', 'ASC')->first();
 
@@ -120,7 +120,7 @@ class PeminjamanController extends Controller
     {
         try {
             $title = "Halaman Detail Peminjaman Buku";
-            $auth = Auth::user()->with('role')->first();
+            $auth = Auth::user();
             $borrow = Peminjaman::with('anggota', 'buku', 'buku.kategori')->where('id_peminjaman', $id)->first();
 
             return view('peminjaman.get', compact('title', 'auth', 'borrow'));

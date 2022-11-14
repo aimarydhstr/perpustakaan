@@ -13,7 +13,7 @@ class PengembalianController extends Controller
     {
         try {
             $title = "Halaman Pengembalian Buku";
-            $auth = Auth::user()->with('role')->first();
+            $auth = Auth::user();
             $borrows = Peminjaman::with('buku', 'anggota')->doesntHave('pengembalian')->orderBy('id_peminjaman', 'DESC')->paginate(10);
 
             return view('pengembalian.index', compact('title', 'auth', 'borrows'))->with('i');
@@ -80,7 +80,7 @@ class PengembalianController extends Controller
     {
         try {
             $title = "Halaman Detail Pengembalian Buku";
-            $auth = Auth::user()->with('role')->first();
+            $auth = Auth::user();
             $returning = Pengembalian::with('peminjaman', 'peminjaman.anggota', 'peminjaman.buku', 'peminjaman.buku.kategori')->where('id_pengembalian', $id)->first();
 
             $day = Peminjaman::selectRaw('datediff(now(), tgl_kembali) as hari')->where('id_peminjaman', $returning->id_peminjaman)->first();

@@ -12,7 +12,7 @@ class AnggotaController extends Controller
     {
         try {
             $title = "Halaman Kelola Anggota";
-            $auth = Auth::user()->with('role')->first();
+            $auth = Auth::user();
             $members = Anggota::orderBy('nama', 'ASC')->paginate(10);
 
             return view('anggota.index', compact('title', 'auth', 'members'))->with('i');
@@ -48,7 +48,7 @@ class AnggotaController extends Controller
     {
         try {
             $title = "Halaman Tambah Anggota";
-            $auth = Auth::user()->with('role')->first();
+            $auth = Auth::user();
 
             return view('Anggota.create', compact('title', 'auth'));
         }
@@ -111,7 +111,7 @@ class AnggotaController extends Controller
     {
         try {
             $title = "Halaman Edit Anggota";
-            $auth = Auth::user()->with('role')->first();
+            $auth = Auth::user();
             $member = Anggota::where('id_anggota', $id)->first();
 
             return view('anggota.edit', compact('title', 'auth', 'member'));

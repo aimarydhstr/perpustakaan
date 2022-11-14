@@ -15,7 +15,7 @@ class BukuController extends Controller
     {
         try {
             $title = "Halaman Kelola Buku";
-            $auth = Auth::user()->with('role')->first();
+            $auth = Auth::user();
             $books = Buku::with('kategori', 'penulis', 'penerbit')->orderBy('judul', 'ASC')->paginate(10);
 
             return view('buku.index', compact('title', 'auth', 'books'))->with('i');
@@ -51,7 +51,7 @@ class BukuController extends Controller
     {
         try {
             $title = "Halaman Tambah Buku";
-            $auth = Auth::user()->with('role')->first();
+            $auth = Auth::user();
             $categories = Kategori::orderBy('nama', 'ASC')->get();
             $authors = Penulis::orderBy('nama', 'ASC')->get();
             $publishers = Penerbit::orderBy('nama', 'ASC')->get();
@@ -132,7 +132,7 @@ class BukuController extends Controller
     {
         try {
             $title = "Halaman Edit Buku";
-            $auth = Auth::user()->with('role')->first();
+            $auth = Auth::user();
             $book = Buku::with('kategori', 'penulis', 'penerbit')->where('id_buku', $id)->first();
             $categories = Kategori::orderBy('nama', 'ASC')->get();
             $authors = Penulis::orderBy('nama', 'ASC')->get();
