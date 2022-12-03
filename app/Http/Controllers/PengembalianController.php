@@ -51,9 +51,9 @@ class PengembalianController extends Controller
             $penalty = $request->denda;
             
             if(!$penalty){
-                $day = Peminjaman::selectRaw('datediff(now(), tgl_kembali) as hari')->where('id_peminjaman', $request->id_peminjaman)->first();
+                $borrow = Peminjaman::selectRaw('datediff(now(), tgl_kembali) as day')->where('id_peminjaman', $request->id_peminjaman)->first();
                 
-                if($day->hari >= 1) $penalty = $day->hari * 500;
+                if($borrow->day >= 1) $penalty = $borrow->day * 500;
                 else $penalty = 0;
             }
 
@@ -83,18 +83,16 @@ class PengembalianController extends Controller
             $auth = Auth::user();
             $returning = Pengembalian::with('peminjaman', 'peminjaman.anggota', 'peminjaman.buku', 'peminjaman.buku.kategori')->where('id_pengembalian', $id)->first();
 
-            $day = Peminjaman::selectRaw('datediff(now(), tgl_kembali) as hari')->where('id_peminjaman', $returning->id_peminjaman)->first();
+            $borrow = Peminjaman::selectRaw('datediff(now(), tgl_kembali) as day')->where('id_peminjaman', $returning->id_peminjaman)->first();
                 
-            if($day->hari >= 1) {
-                $statusKembali = 'Terlambat';
-                $penalty = $day->hari * 500;
+            if($borrow->day >= 1) {
+                $status = 'Terlambat';
             }
             else {
-                $statusKembali = 'Tepat Waktu';
-                $penalty = 0;
+                $status = 'Tepat Waktu';
             }
 
-            return view('pengembalian.get', compact('title', 'auth', 'returning', 'statusKembali', 'penalty'));
+            return view('pengembalian.get', compact('title', 'auth', 'returning', 'status'));
         }
 
         catch(Throwable $e) {

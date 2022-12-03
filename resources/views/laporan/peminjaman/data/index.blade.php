@@ -4,6 +4,9 @@
          <tr>
             <th scope="col" class="py-3 px-6">Nama Peminjam</th>
             <th scope="col" class="py-3 px-6">Judul Buku</th>
+            <th scope="col" class="py-3 px-6">Tanggal Pinjam</th>
+            <th scope="col" class="py-3 px-6">Petugas</th>
+            <th scope="col" class="py-3 px-6">Pengembalian</th>
          </tr>
      </thead>
      <tbody>
@@ -38,6 +41,9 @@
                   </div>
                </th>
                <td class="py-4 px-6">{{ $borrow->buku->judul }}</td>
+               <td class="py-4 px-6">{{ date('d F Y', strtotime($borrow->tgl_pinjam)) }}</td>
+               <td class="py-4 px-6">{{ $borrow->user->nama }}</td>
+               <td class="py-4 px-6">{{ $statuses[$i++] }}</td>
             </tr>
 
          @endforeach

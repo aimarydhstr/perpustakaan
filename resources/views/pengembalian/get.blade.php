@@ -59,15 +59,15 @@
                   <div class="flex pb-6">
                      <div class="basis-1/2">
                         <p>Status</p>
-                        @if($statusKembali == 'Terlambat')
-                        <p class="pt-2.5 font-semibold">{{ $statusKembali }}</p>
+                        @if($status == 'Terlambat')
+                        <p class="pt-2.5 font-semibold">{{ $status }}</p>
                         @else
-                        <p class="pt-2.5 font-semibold">{{ $statusKembali }}</p>
+                        <p class="pt-2.5 font-semibold">{{ $status }}</p>
                         @endif
                      </div>
                      <div>
                         <p>Denda</p>
-                        <p class="pt-2.5 font-semibold">Rp. {{ $penalty }}</p>
+                        <p class="pt-2.5 font-semibold">Rp. {{ $returning->penalty }}</p>
                      </div>
                   </div>
                   <div class="flex relative items-center my-5">

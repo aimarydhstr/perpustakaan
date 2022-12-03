@@ -182,7 +182,7 @@
                <div class="flex items-center py-3 px-4 border-t dark:border-slate-600">
                   <img src="{{ asset('/img/anggota/'.$orang->foto) }}" alt="Aimar Yudhistira" class="w-10 h-10 mt-1 object-cover rounded-full mr-3">
                      
-                  <p class="w-full block truncate overflow-hidden">
+                  <p class="grow overflow-hidden">
                      <span class="text-slate-700 dark:text-slate-100 text-sm block font-semibold">{{ $orang->nama }}</span>
                      <span class="text-slate-500 dark:text-slate-300 text-xs block">{{ $orang->email }}</span>
                   </p>

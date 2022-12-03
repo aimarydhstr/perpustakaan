@@ -88,9 +88,27 @@ class LaporanController extends Controller
         try {
             $title = "Halaman Laporan Peminjaman";
             $auth = Auth::user();
-            $borrows = Peminjaman::with('buku', 'anggota')->orderBy('id_peminjaman', 'DESC')->paginate(10);
+            $borrows = Peminjaman::whereDay('tgl_pinjam', now())->with('buku', 'anggota')->orderBy('id_peminjaman', 'DESC')->paginate(10);
 
-            return view('laporan.peminjaman.index', compact('title', 'auth', 'borrows'))->with('i');
+            $statuses = [];
+            $i = 0;
+
+            foreach($borrows as $borrow){
+                $returning = Pengembalian::where('id_peminjaman', $borrow->id_peminjaman)->first();
+                if ($returning) {
+                    $status = 'Sudah';
+                    array_push($statuses, $status);
+                } else {
+                    $status = 'Belum';
+                    array_push($statuses, $status);
+                }
+            }
+
+            $borrowDay = Peminjaman::whereDay('tgl_pinjam', now())->count();
+            $borrowMonth = Peminjaman::whereMonth('tgl_pinjam', now())->count();
+            $borrowTotal = Peminjaman::count();
+
+            return view('laporan.peminjaman.index', compact('title', 'auth', 'borrows', 'borrowTotal', 'borrowMonth', 'borrowDay', 'statuses', 'i'));
         }
 
         catch(Throwable $e) {
@@ -104,11 +122,34 @@ class LaporanController extends Controller
     {
         try {
             if($request->ajax()){
-                $search = $request->search;
-                $search = str_replace(" ", "%", $search);
-                $borrows = Peminjaman::whereRelation('anggota', 'nama', 'like', '%'.$search.'%')->with('buku', 'anggota')->orderBy('id_peminjaman', 'DESC')->paginate(10);
+                $search = str_replace(" ", "%", $request->search);
+                $firstDate = str_replace(" ", "", $request->firstDate);
+                $secondDate = str_replace(" ", "", $request->secondDate);
 
-                return view('laporan.peminjaman.data.index', compact('borrows'))->with('i')->render();
+                if (!$firstDate) {
+                    $firstDate = '0000-00-00';
+                }
+                if (!$secondDate) {
+                    $secondDate = now();
+                }
+
+                $borrows = Peminjaman::whereBetween('tgl_pinjam', array($firstDate, $secondDate))->with('buku', 'anggota')->whereRelation('anggota', 'nama', 'like', '%'.$search.'%')->orderBy('id_peminjaman', 'DESC')->paginate(10);
+
+                $statuses = [];
+                $i = 0;
+
+                foreach($borrows as $borrow){
+                    $returning = Pengembalian::where('id_peminjaman', $borrow->id_peminjaman)->first();
+                    if ($returning) {
+                        $status = 'Sudah';
+                        array_push($statuses, $status);
+                    } else {
+                        $status = 'Belum';
+                        array_push($statuses, $status);
+                    }
+                }
+                
+                return view('laporan.peminjaman.data.index', compact('borrows', 'statuses', 'i'))->render();
             }
         }
 
@@ -124,9 +165,30 @@ class LaporanController extends Controller
         try {
             $title = "Halaman Pengembalian Buku";
             $auth = Auth::user();
-            $returnings = Pengembalian::with('peminjaman', 'peminjaman.buku', 'peminjaman.anggota')->orderBy('id_pengembalian', 'DESC')->paginate(10);
+            $returnings = Pengembalian::whereDay('tgl_kembali', now())->with('peminjaman', 'peminjaman.buku', 'peminjaman.anggota')->orderBy('id_pengembalian', 'DESC')->paginate(10);
 
-            return view('laporan.pengembalian.index', compact('title', 'auth', 'returnings'))->with('i');
+            $statuses = [];
+            $i = 0;
+
+            foreach ($returnings as $returning) {
+                $borrow = Peminjaman::with('pengembalian')->where('id_peminjaman', $returning->id_peminjaman)->first();
+                    
+                if($borrow->tgl_kembali < $borrow->pengembalian->tgl_kembali) {
+                    $status = 'Terlambat';
+                    array_push($statuses, $status);
+                }
+                else {
+                    $status = 'Tepat Waktu';
+                    array_push($statuses, $status);
+                }
+            }
+
+            $returnMonth = Pengembalian::whereMonth('tgl_kembali', now())->count();
+            $returnTotal = Pengembalian::count();
+            $penaltyMonth = Pengembalian::whereMonth('tgl_kembali', now())->sum('denda');
+            $penaltyTotal = Pengembalian::sum('denda');
+
+            return view('laporan.pengembalian.index', compact('title', 'auth', 'returnings', 'returnMonth', 'returnTotal', 'penaltyMonth', 'penaltyTotal', 'statuses', 'i'));
         }
 
         catch(Throwable $e) {
@@ -140,11 +202,36 @@ class LaporanController extends Controller
     {
         try {
             if($request->ajax()){
-                $search = $request->search;
-                $search = str_replace(" ", "%", $search);
-                $returnings = Pengembalian::whereRelation('peminjaman', 'anggota', 'nama', 'like', '%'.$search.'%')->with('peminjaman', 'peminjaman.buku', 'peminjaman.anggota')->orderBy('id_pengembalian', 'DESC')->paginate(10);
+                $search = str_replace(" ", "%", $request->search);
+                $firstDate = str_replace(" ", "", $request->firstDate);
+                $secondDate = str_replace(" ", "", $request->secondDate);
 
-                return view('laporan.pengembalian.data.index', compact('returnings'))->with('i')->render();
+                if (!$firstDate) {
+                    $firstDate = '0000-00-00';
+                }
+                if (!$secondDate) {
+                    $secondDate = now();
+                }
+                
+                $returnings = Pengembalian::whereBetween('tgl_kembali', array($firstDate, $secondDate))->with('peminjaman', 'peminjaman.buku', 'peminjaman.anggota')->whereRelation('peminjaman.anggota', 'nama', 'like', '%'.$search.'%')->orderBy('id_pengembalian', 'DESC')->paginate(10);
+
+                $statuses = [];
+                $i = 0;
+
+                foreach ($returnings as $returning) {
+                    $borrow = Peminjaman::with('pengembalian')->where('id_peminjaman', $returning->id_peminjaman)->first();
+                        
+                    if($borrow->tgl_kembali < $borrow->pengembalian->tgl_kembali) {
+                        $status = 'Terlambat';
+                        array_push($statuses, $status);
+                    }
+                    else {
+                        $status = 'Tepat Waktu';
+                        array_push($statuses, $status);
+                    }
+                }
+
+                return view('laporan.pengembalian.data.index', compact('returnings', 'statuses', 'i'))->render();
             }
         }
 

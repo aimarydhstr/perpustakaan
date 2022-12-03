@@ -44,3 +44,7 @@
 * {
     font-family: Google Sans;
 }
+.book {
+  float: left!important;
+  width: calc(100% / 5)!important;
+}

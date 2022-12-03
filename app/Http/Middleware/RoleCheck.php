@@ -9,7 +9,9 @@ class RoleCheck
 {
     public function handle(Request $request, Closure $next, ...$roles)
     {
-        if(in_array($request->user()->role_id, $auth->role_id)) return $next($request);
+        if (in_array($request->user()->id_role, $roles)) return $next($request);
+
+        if ($request->user()->id_role == 1) return redirect()->route('dashboard');
 
         return redirect()->route('peminjaman');
     }

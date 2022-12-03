@@ -1,11 +1,11 @@
-<div class="relative px-1 mb-5">
+<div class="relative px-1 mb-5 overflow-hidden">
 @if($books->isEmpty())
    <p class="py-4 px-6 text-center">Tidak ada data buku</p>
 @else
-   <div class="flex justify-between">
+   <div class="block w-full clear-both">
    @foreach($books as $book)
 
-      <div class="basis-1/5 p-3">
+      <div class="book p-3">
          <a href="{{ route('peminjaman.create', $book->id_buku) }}">
             <div class="block bg-white dark:bg-slate-600 shadow-lg rounded-xl relative cursor-pointer">
                <img src="{{ asset('/img/buku/'.$book->foto) }}" class="h-64 w-full bg-slate-200 rounded-xl" alt="Buku {{ $book->judul }}">
